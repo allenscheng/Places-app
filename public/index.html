@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My App</title>
+  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="place.css">
+  <script src="index.js" defer></script>
+</head>
+<body>
+  <div id="app">
+    <router-view></router-view>
+  </div>
+</body>
+</html>
+
+<template id="home-page">
+  <div>
+<!-- <button v-on:click="swal()">swal alert</button> -->
+
+    <div id="map"></div>
+
+    <button v-on:click="sortBy('name')">Sort by Name</button>
+    <button v-on:click="sortBy('address')">Sort by Address</button>
+
+    <input type="text" v-model="nameFilter" placeholder="Search name"  list="names">
+    <datalist id="names">
+      <option v-for="place in sortedPlaces">{{place.name}}</option>
+    </datalist>
+    <!-- few lines above allow for autocomplete -->
+    <input type="text" v-model="addressFilter" placeholder="Search address">
+    <h1>Welcome to the Address App</h1>
+    <ul>
+  <!-- <transition-group name="bounce"> -->
+      <li v-for="place in places" v-if="isValid(place)" v-bind:key="place.id">
+        <!-- above is for a filter -->
+      <strong>Name:</strong> {{place.name}} <strong>Address:</strong> {{place.address}}
+      </li>
+  <!-- </transition-group> -->
+    </ul>
+    <h4>Add a new address:</h4>
+    <ul>
+      <li v-for="error in errors">
+        {{error}}
+      </li>
+    </ul>
+    <div>
+    Name: <input type="text" v-model="newPlace.name">
+    </div>
+    <div>
+    Address: <input type="text" v-model="newPlace.address">
+    </div>
+    <button v-on:click="addNewAddress">Submit new address</button>
+  </div>
+</template>
